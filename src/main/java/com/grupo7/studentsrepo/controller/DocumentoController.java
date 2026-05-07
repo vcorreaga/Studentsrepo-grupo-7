@@ -34,9 +34,11 @@ public class DocumentoController {
 
         @Operation(summary = "Obtener todos los documentos")
         @GetMapping
-        public List<Documento> getAll() {
+        public List<DocumentoResponseDTO> getAll() {
 
-                return documentoService.findAll();
+                return documentoService.findAll().stream()
+                        .map(DocumentoMapper::toResponseDTO)
+                        .toList();
         }
 
         @Operation(summary = "Obtener documento por ID")
@@ -52,39 +54,48 @@ public class DocumentoController {
         @Operation(summary = "Filtrar por categoría")
         @GetMapping("/categoria/{categoria}")
 
-        public List<Documento> getByCategoria(
+        public List<DocumentoResponseDTO> getByCategoria(
                         @PathVariable CategoriaDocumento categoria) {
 
-                return documentoService.findByCategoria(categoria);
+                return documentoService.findByCategoria(categoria).stream()
+                        .map(DocumentoMapper::toResponseDTO)
+                        .toList();
         }
 
         @Operation(summary = "Filtrar por estado")
         @GetMapping("/estado/{estado}")
 
-        public List<Documento> getByEstado(
+        public List<DocumentoResponseDTO> getByEstado(
                         @PathVariable EstadoDocumento estado) {
 
-                return documentoService.findByEstado(estado);
+                return documentoService.findByEstado(estado).stream()
+                        .map(DocumentoMapper::toResponseDTO)
+                        .toList();
         }
 
         @Operation(summary = "Documentos de un estudiante")
         @GetMapping("/estudiante/{estudianteId}")
 
-        public List<Documento> getByEstudiante(
+        public List<DocumentoResponseDTO> getByEstudiante(
                         @PathVariable Long estudianteId) {
 
-                return documentoService.findByEstudiante(estudianteId);
+                return documentoService.findByEstudiante(estudianteId).stream()
+                        .map(DocumentoMapper::toResponseDTO)
+                        .toList();
         }
 
         @Operation(summary = "Documentos de un estudiante por categoría")
         @GetMapping("/estudiante/{estudianteId}/categoria/{categoria}")
 
-        public List<Documento> getByEstudianteYCategoria(
+        public List<DocumentoResponseDTO> getByEstudianteYCategoria(
                         @PathVariable Long estudianteId,
                         @PathVariable CategoriaDocumento categoria) {
 
                 return documentoService
-                                .findByEstudianteYCategoria(estudianteId, categoria);
+                                .findByEstudianteYCategoria(estudianteId, categoria)
+                                .stream()
+                                .map(DocumentoMapper::toResponseDTO)
+                                .toList();
         }
 
         @Operation(summary = "Crear documento")

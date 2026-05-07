@@ -31,9 +31,11 @@ public class AdminController {
 
         @Operation(summary = "Obtener todos los admins")
         @GetMapping
-        public List<Admin> getAll() {
+        public List<AdminResponseDTO> getAll() {
 
-                return adminService.findAll();
+                return adminService.findAll().stream()
+                        .map(AdminMapper::toResponseDTO)
+                        .toList();
         }
 
         @Operation(summary = "Obtener admin por ID")

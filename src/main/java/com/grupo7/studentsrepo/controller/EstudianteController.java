@@ -29,9 +29,11 @@ public class EstudianteController {
 
     @Operation(summary = "Obtener todos los estudiantes")
     @GetMapping
-    public List<Estudiante> getAll() {
+    public List<EstudianteResponseDTO> getAll() {
 
-        return estudianteService.findAll();
+        return estudianteService.findAll().stream()
+                .map(EstudianteMapper::toResponseDTO)
+                .toList();
     }
 
     @Operation(summary = "Obtener estudiante por ID")
@@ -45,20 +47,24 @@ public class EstudianteController {
 
     @Operation(summary = "Buscar por carrera")
     @GetMapping("/carrera/{carrera}")
-    public List<Estudiante> getByCarrera(
+    public List<EstudianteResponseDTO> getByCarrera(
             @PathVariable String carrera
     ) {
 
-        return estudianteService.findByCarrera(carrera);
+        return estudianteService.findByCarrera(carrera).stream()
+                .map(EstudianteMapper::toResponseDTO)
+                .toList();
     }
 
     @Operation(summary = "Buscar por apellidos")
     @GetMapping("/buscar")
-    public List<Estudiante> getByApellidos(
+    public List<EstudianteResponseDTO> getByApellidos(
             @RequestParam String apellidos
     ) {
 
-        return estudianteService.findByApellidos(apellidos);
+        return estudianteService.findByApellidos(apellidos).stream()
+                .map(EstudianteMapper::toResponseDTO)
+                .toList();
     }
 
     @Operation(summary = "Crear estudiante")
